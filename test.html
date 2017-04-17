@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+
+<body>
+    <script src='./index.js'></script>
+    <script>
+        // 1. 构建虚拟DOM
+        var tree = new VirtualDom('div', {
+            'id': 'container'
+        }, [
+            new VirtualDom('div', {
+                key: '1'
+            }, ['virtual-dom1']),
+            new VirtualDom('p', {key: '2'}, ['virtual-dom2']),
+            new VirtualDom('ul', {key: '3'}, ['virtual-dom3']),
+            new VirtualDom('ul',[new VirtualDom('li')])
+        ]);
+
+        // 2. 通过虚拟DOM构建真正的DOM
+        var root = tree.render();
+        console.log(root);
+        document.body.appendChild(root);
+
+        // 3. 生成新的虚拟DOM
+        var newTree = new VirtualDom('div', {
+            'id': 'container'
+        }, [
+            new VirtualDom('ul', {
+              key: '3'
+            }, ['virtual-dom3']),
+            new VirtualDom('div', {key: '1'}, ['virtual-dom1']),
+            new VirtualDom('p', {key: '2'}, ['virtual-dom2']),
+            new VirtualDom('ul',[new VirtualDom('li'), new VirtualDom('li', {key: '4'})])
+        ]);
+
+        // 4. 比较两棵虚拟DOM树的不同
+        var patches = diff(tree, newTree);
+        // 5. 在真正的DOM元素上应用变更
+        patch(root, patches)
+    </script>
+</body>
+
+</html>
