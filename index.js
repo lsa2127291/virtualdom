@@ -194,12 +194,13 @@ function listDiff (oldList, newList, key) {
     if (simulateList[i] === null) {
       remove(i);
       removeSimulate(i);
+      removeOldList(i);
     } else {
       i++;
     }
   }
   i = 0;
-  var k = 0;
+  var k = 0, lastIndex = 0;
   while (i < newList.length) {
     item = newList[i];
     itemKey = getItemKey(item, key);
@@ -215,8 +216,11 @@ function listDiff (oldList, newList, key) {
       // }
     } else {
       var j = oldKeyIndex[itemKey];
-      if (i > j) {
+      if (i < lastIndex) {
         move(j, i);
+      }
+      if (lastIndex < j) {
+        lastIndex = j;
       }
     }
     i++;
@@ -235,6 +239,9 @@ function listDiff (oldList, newList, key) {
   }
   function removeSimulate (index) {
     simulateList.splice(index, 1);
+  }
+  function removeOldList (index) {
+    oldList.splice(index, 1);
   }
   function makeKeyIndexAndFree (list, key) {
     var keyIndex = {};

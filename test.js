@@ -36,3 +36,6 @@ function isArray (item) {
   return Object.prototype.toString.call(item) === '[object Array]';
 }
 console.log(Object.prototype.toString.call([0, 1, 2]));
+d = [1, 2, 3];
+d.splice(1, 1);
+console.log(d);

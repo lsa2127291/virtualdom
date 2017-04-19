@@ -32,8 +32,7 @@
         }, [
             new VirtualDom('ul', {
               key: '3'
-            }, ['virtual-dom3']),
-            new VirtualDom('div', {key: '1'}, ['virtual-dom1']),
+            }, ['virtual-dom3', new VirtualDom('div', {key: '1'}, ['virtual-dom1'])]),
             new VirtualDom('p', {key: '2'}, ['virtual-dom2']),
             new VirtualDom('ul',[new VirtualDom('li'), new VirtualDom('li', {key: '4'})])
         ]);
@@ -41,7 +40,8 @@
         // 4. 比较两棵虚拟DOM树的不同
         var patches = diff(tree, newTree);
         // 5. 在真正的DOM元素上应用变更
-        patch(root, patches)
+        // console.log('patches', patches);;
+        patch(root, patches);
     </script>
 </body>
 
